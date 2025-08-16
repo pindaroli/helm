@@ -37,7 +37,7 @@ spec:
       serviceAccountName: {{ .Values.lidarr.serviceAccount.name | default (printf "%s-lidarr" .Release.Name) }}
       securityContext:
         {{- toYaml .Values.lidarr.podSecurityContext | nindent 8 }}
-      {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.lidarr.persistence.enabled }}
+      {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.lidarr.persistence.enabled .Values.lidarr.persistence.createInitContainer }}
       initContainers:
         - name: init-directories
           image: busybox

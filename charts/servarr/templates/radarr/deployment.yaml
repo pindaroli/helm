@@ -37,7 +37,7 @@ spec:
       serviceAccountName: {{ .Values.radarr.serviceAccount.name | default (printf "%s-radarr" .Release.Name) }}
       securityContext:
         {{- toYaml .Values.radarr.podSecurityContext | nindent 8 }}
-      {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.radarr.persistence.enabled }}
+      {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.radarr.persistence.enabled .Values.radarr.persistence.createInitContainer }}
       initContainers:
         - name: init-directories
           image: busybox

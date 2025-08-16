@@ -246,6 +246,7 @@ jellyfin:
 ## @param sonarr.persistence.existingClaim The name of an existing claim to use for the persistence.
 ## @param sonarr.persistence.accessMode The access mode to use for the persistence.
 ## @param sonarr.persistence.size The size to use for the persistence.
+## @param sonarr.persistence.createInitContainer Whether to create init container for directory setup.
 ## @param sonarr.persistence.additionalVolumes Additional volumes to add to the pod.
 ## @param sonarr.persistence.additionalMounts Additional volume mounts to add to the pod.
 ##
@@ -343,6 +344,7 @@ sonarr:
     existingClaim: ""
     accessMode: ReadWriteOnce
     size: 800Mi
+    createInitContainer: true
     additionalVolumes: []
     additionalMounts: []
 
@@ -1087,6 +1089,7 @@ bazarr:
 ## @param radarr.persistence.existingClaim The name of an existing claim to use for the persistence.
 ## @param radarr.persistence.accessMode The access mode to use for the persistence.
 ## @param radarr.persistence.size The size to use for the persistence.
+## @param radarr.persistence.createInitContainer Whether to create init container for directory setup.
 ## @param radarr.persistence.additionalVolumes Additional volumes to add to the pod.
 ## @param radarr.persistence.additionalMounts Additional volume mounts to add to the pod.
 ##
@@ -1183,6 +1186,7 @@ radarr:
     existingClaim: ""
     accessMode: ReadWriteOnce
     size: 800Mi
+    createInitContainer: true
     additionalVolumes: []
     additionalMounts: []
 

@@ -9,8 +9,10 @@ This repository contains Helm charts for Kubernetes applications maintained by P
 **Key Files:**
 - `charts/servarr`: The main chart for the media stack.
 - `oli-arr-values.yaml`: Use this values file for the "Oli-Arr" deployment configuration.
-- `CLAUDE.md`: Contains project-specific coding conventions and existing documentation.
 - `TESTING.md`: detailed testing strategies.
+- `instructions/`: Directory containing specific task instructions and prompts.
+    - `instructions/LIBRARY_CHART_TODO.md`: Plan for creating the common library chart.
+    - `instructions/RESUME_PROMPT.md`: Prompt to resume the library chart work.
 
 ## Architecture & patterns
 

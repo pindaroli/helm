@@ -50,14 +50,17 @@ spec:
           emptyDir: { }
           {{- end }}
         - name: media
-          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled }}
+          {{- if .Values.qbittorrent.persistence.media.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-jellyfin-media
+            claimName: {{ .Values.qbittorrent.persistence.media.existingClaim | default (printf "%s-jellyfin-media" .Release.Name) }}
           {{- else }}
           emptyDir: { }
           {{- end }}
         {{- if .Values.qbittorrent.persistence.additionalVolumes }}
           {{- .Values.qbittorrent.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+        {{- if .Values.qbittorrent.extraVolumes }}
+        {{- toYaml .Values.qbittorrent.extraVolumes | nindent 8 }}
         {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -68,7 +71,7 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: config
-          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled }}
+          {{- if .Values.qbittorrent.persistence.media.enabled }}
             - mountPath: "/media/{{ .Values.qbittorrent.persistence.path }}"
               name: media
               subPath: {{ .Values.qbittorrent.persistence.path }}
@@ -87,12 +90,15 @@ spec:
               containerPort: {{ .Values.qbittorrent.service.bt.port | default 6881 }}
               protocol: UDP
           env:
-            {{- range $k,$v := .Values.qbittorrent.env }}
+            {{- range $k, $v := .Values.qbittorrent.env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
           resources:
             {{- toYaml .Values.qbittorrent.resources | nindent 12 }}
+        {{- if .Values.qbittorrent.extraContainers }}
+        {{- toYaml .Values.qbittorrent.extraContainers | nindent 8 }}
+        {{- end }}
       {{- with .Values.qbittorrent.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

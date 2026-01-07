@@ -50,9 +50,9 @@ spec:
           emptyDir: { }
           {{- end }}
         - name: media
-          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.prowlarr.persistence.enabled }}
+          {{- if .Values.prowlarr.persistence.media.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-jellyfin-media
+            claimName: {{ .Values.prowlarr.persistence.media.existingClaim | default (printf "%s-jellyfin-media" .Release.Name) }}
           {{- else }}
           emptyDir: { }
           {{- end }}
@@ -68,6 +68,10 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: config
+          {{- if .Values.prowlarr.persistence.media.enabled }}
+            - mountPath: /media
+              name: media
+          {{- end }}
           {{- if .Values.prowlarr.persistence.additionalMounts }}
             {{- .Values.prowlarr.persistence.additionalMounts | toYaml | nindent 12 }}
           {{- end }}

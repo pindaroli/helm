@@ -34,6 +34,14 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 spec:
   type: {{ .Values.qbittorrent.service.bt.type | default "ClusterIP" }}
+  {{- if eq .Values.qbittorrent.service.bt.type "LoadBalancer" }}
+  {{- if .Values.qbittorrent.service.bt.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.qbittorrent.service.bt.loadBalancerIP }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.qbittorrent.service.bt.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.qbittorrent.service.bt.externalTrafficPolicy }}
+  {{- end }}
   ports:
     - port: {{ .Values.qbittorrent.service.bt.port | default 6881 }}
       targetPort: bittorrent-tcp
